@@ -7,7 +7,7 @@ name = $0
 #print name
 }
 
-/.*(AGGGTGCAAGCGTTAATCGGAATTACTGGGCGTA)/ {
+/.*TCCGTGCGC.+/ {
   barcode = "#It will work"
   name = name " " barcode
 #print name
