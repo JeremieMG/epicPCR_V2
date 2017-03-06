@@ -8,10 +8,11 @@ barcode=""
 condition= 0
 }
 
-#Find and save the barcode
+#Find and save the barcode. Save the sequence
 /.*(TCCGTGCGC)|(TGTTTCCCA)|(GGTAATGAA)|(GAAACTGGG)|(ACGGGCTGA)|(ATGAAGTAT)|(ACTTATTGT)|(GGCGGGAAA)|(ACACCTCGG)|(CTCATTGGG).+/ {
   match($0,"(TCCGTGCGC)|(TGTTTCCCA)|(GGTAATGAA)|(GAAACTGGG)|(ACGGGCTGA)|(ATGAAGTAT)|(ACTTATTGT)|(GGCGGGAAA)|(ACACCTCGG)|(CTCATTGGG)", a)
   barcode = "#"a[0] 
+  
   name = header " " barcode
 }
 
@@ -26,8 +27,8 @@ condition= 0
 }
 
 #Save the quality
-/^]|P/{
-  quality =$0
+/^.*\[|`/{
+ quality =$0
   condition= 1
 }
 
