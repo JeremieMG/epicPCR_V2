@@ -1,24 +1,17 @@
 #!usr/bin/awk -f
-#version 1.0
+#version 2.0
 
 #Save the Header
 /^@/ {
 header = $0
-barcode=""
-condition= 0
+condition = 0
 }
 
-#Find and save the barcode. Save the sequence
-/.*(TCCGTGCGC)|(TGTTTCCCA)|(GGTAATGAA)|(GAAACTGGG)|(ACGGGCTGA)|(ATGAAGTAT)|(ACTTATTGT)|(GGCGGGAAA)|(ACACCTCGG)|(CTCATTGGG).+/ {
-  match($0,"(TCCGTGCGC)|(TGTTTCCCA)|(GGTAATGAA)|(GAAACTGGG)|(ACGGGCTGA)|(ATGAAGTAT)|(ACTTATTGT)|(GGCGGGAAA)|(ACACCTCGG)|(CTCATTGGG)", a)
-  barcode = "#"a[0] 
-  
-  name = header " " barcode
-}
-
-#Save the sequence
-/^[ATCG]/{
+#Save the barcode and the sequence
+/^[ATCG]/ {
+  barcode = substr($0,0,8)
   sequence =$0
+  name = header " #"barcode
 }
 
 #Save the "Quality commentary"
@@ -26,15 +19,9 @@ condition= 0
   useless =$0
 }
 
-#Save the quality
+#Save the quality and print the lines
 /^.*\[|`/{
  quality =$0
-  condition= 1
+ condition = 1
+ print name"\n"sequence"\n"useless"\n"quality
 }
-
-#Print only if a barcade was in the sequence
-{
-if(barcode != "" && condition==1)
-	print name"\n"sequence"\n"useless"\n"quality"\n"
-}
-
