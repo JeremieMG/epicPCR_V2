@@ -1,3 +1,8 @@
+# /!\ This repository is useless /!\
+
+
+
+
 # epicPCR_V2
 
 # Barcoder.awk (New script)
